@@ -3,13 +3,13 @@ import "./styles.css";
 
 export class Button extends Component {
   render() {
-    const { text, onClick } = this.props;
+    const { text, onClick, disabled } = this.props;
 
     return (
       <button 
-        disabled 
         className="button" 
         onClick={onClick}
+        disabled={disabled} 
       > 
         {text}
       </button>
