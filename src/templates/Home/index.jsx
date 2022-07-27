@@ -66,7 +66,7 @@ class Home extends Component {
     
     const filteredPosts = !!searchValue ?
       allPosts.filter(post => {
-        post.title.toLowerCase().includes(
+        return post.title.toLowerCase().includes(
           searchValue.toLowerCase()
         );
       })
