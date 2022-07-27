@@ -16,16 +16,18 @@ class Home extends Component {
       searchValue: '',
     };
 
-    async componentDidMount() {
-      await this.loadPosts();
+    componentDidMount() {
+      this.loadPosts();
     }
 
     loadPosts = async () => {
       const { page, postsPerPage } = this.state;
 
       const postsAndPhotos = await loadPosts();
-      this.setState({ 
-        posts: postsAndPhotos.slice(page, postsPerPage),
+
+      this.setState({
+        ...this.state,
+        posts: postsAndPhotos.slice(page, page + postsPerPage),
         allPosts: postsAndPhotos, 
       });
     } 
@@ -46,18 +48,25 @@ class Home extends Component {
       this.setState({ posts, page: nextPage });
     }
 
-    handleChange = (e) => {
-      const { value } = e.target;
-      this.setState({ searchValue: value })
+    handleInputChange = (event) => {
+      const value = event.currentTargent.value;
+      this.setState({ ...this.state, searchValue: value })
     }
   
   render() {
-    const { posts, page, postsPerPage, allPosts, searchValue } = this.state; 
+    const { 
+      posts, 
+      page, 
+      postsPerPage, 
+      allPosts, 
+      searchValue 
+    } = this.state; 
+    
     const noMorePosts = page + postsPerPage >= allPosts.length;
     
     const filteredPosts = !!searchValue ?
       allPosts.filter(post => {
-        return post.title.toLowerCase().includes(
+        post.title.toLowerCase().includes(
           searchValue.toLowerCase()
         );
       })
@@ -70,7 +79,10 @@ class Home extends Component {
             <h1>Search value: {searchValue}</h1>
           )}
 
-          <TextInput searchValue={searchValue} handleChange={this.handleChange} />
+          <TextInput 
+            actionFn={this.handleInputChange}
+            inputValue={searchValue} 
+          />
         </div>
         {filteredPosts.length > 0 && (
           <Posts posts={filteredPosts} />
