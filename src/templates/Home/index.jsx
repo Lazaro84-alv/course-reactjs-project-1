@@ -1,3 +1,5 @@
+import React from "react";
+
 import './styles.css';
 
 import { useEffect, useCallback, useState } from 'react';
@@ -12,7 +14,7 @@ export const Home = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [page, setPage] = useState(0);
   const [postsPerPage] = useState(10);
-  const [searchValue, setSearchValue] = useState(''); 
+  const [searchValue, setSearchValue] = useState('');
 
   const handleLoadPosts = useCallback (async (page, postsPerPage) => {
     const postsAndPhotos = await loadPosts();
@@ -42,7 +44,7 @@ export const Home = () => {
   }
 
   const noMorePosts = page + postsPerPage >= allPosts.length;
-  const filteredPosts = searchValue 
+  const filteredPosts = searchValue
     ? allPosts.filter((post) => {
       return post.title.toLowerCase().includes(searchValue.toLowerCase());
     })
@@ -55,9 +57,9 @@ export const Home = () => {
           <h1>Search value: {searchValue}</h1>
         )}
 
-        <TextInput 
+        <TextInput
           searchValue={searchValue}
-          handleChange={handleChange} 
+          handleChange={handleChange}
         />
       </div>
       {filteredPosts.length > 0 && (
